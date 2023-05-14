@@ -75,8 +75,7 @@ def ask_question(retriever):
     qa = RetrievalQA.from_chain_type(
         llm=HuggingFaceHub(
             repo_id="google/flan-t5-large",
-            model_kwargs={"temperature": 0, "max_length": 512}
-            ),
+            model_kwargs={"temperature": 0, "max_length": 512}),
         chain_type="stuff",
         retriever=retriever,
         return_source_documents=True
