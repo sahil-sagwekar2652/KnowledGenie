@@ -1,6 +1,6 @@
 # Import relevant modules
 
-import os
+# import os
 
 from langchain import HuggingFaceHub
 from langchain.embeddings import HuggingFaceEmbeddings
@@ -13,15 +13,15 @@ from langchain.chains import RetrievalQA
 # from langchain.indexes import VectorstoreIndexCreator
 # from langchain.chains.question_answering import load_qa_chain
 
-from getpass import getpass
+# from getpass import getpass
 
 
-def ask_user_for_key():
-    """
-    Asks user for HuggingFace API token
-    """
-    HUGGINGFACEHUB_API_TOKEN = getpass()
-    os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+# def ask_user_for_key():
+#     """
+#     Asks user for HuggingFace API token
+#     """
+#     HUGGINGFACEHUB_API_TOKEN = getpass()
+#     os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
 
 
 def load_document(document_path):
@@ -66,7 +66,7 @@ def create_retriever(vector):
     return retriever
 
 
-def ask_question(retriever, query):
+def ask_question(retriever):
     """
     RetrievalQA is used to find the most similar documents to a query.
     User asks query and the chain is utilized to retrieve answer
@@ -75,10 +75,24 @@ def ask_question(retriever, query):
     qa = RetrievalQA.from_chain_type(
         llm=HuggingFaceHub(
             repo_id="google/flan-t5-large",
-            model_kwargs={"temperature": 0, "max_length": 512}),
+            model_kwargs={"temperature": 0, "max_length": 512}
+            ),
         chain_type="stuff",
         retriever=retriever,
         return_source_documents=True
     )
-    answer = qa({"query": query})
-    return answer
+    return qa
+
+
+def qa_model(document_path):
+    """
+    This function is the main function that runs the entire script.
+    """
+    document = load_document(document_path)
+    texts = split_document(document)
+    embeddings = load_embeddings()
+    vector = create_vectors(texts, embeddings)
+    retriever = create_retriever(vector)
+    qa = ask_question(retriever)
+
+    return qa
