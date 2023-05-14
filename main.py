@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request
+import backend
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify  # noqa: E501
 from dotenv import load_dotenv
 import os
+
 
 load_dotenv()
 app = Flask(__name__)
@@ -14,15 +16,36 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    file = request.files['file']
-    filename = file.filename
+    uploaded_file = request.files['file']
+    file_path = os.path.join('/tmp', uploaded_file.filename)
+    uploaded_file.save(file_path)
+    session['file_path'] = file_path
 
-    if not os.path.exists('uploads'):
-        os.mkdir('uploads')
+    return redirect(url_for('process'))
 
-    file.save(os.path.join('uploads', filename))
-    return "<h3>File Uploaded Successfully</h3>"
-    # return redirect(location=url_for(endpoint='index'))
+
+@app.route('/process', methods=['GET', 'POST'])
+def process():
+    if request.method == 'POST':
+        query = request.json['query']
+
+        if 'file_path' in session:
+            file_path = session['file_path']
+
+            # Running the model from backend\script.py
+            # This code loads a model from the HuggingFace repository.
+            qa_model = backend.main(file_path, "What is the capital of India?")
+            result = qa_model(query)
+            answer = result['result']
+            # source = result['source_documents'][0].metadata['source']
+
+            # os.remove(file_path)
+            # session.pop('file_path', None)
+            return jsonify({'answer': answer})
+        else:
+            return 'No file uploaded.'
+    else:
+        return render_template('chat.html')
 
 
 if __name__ == '__main__':
