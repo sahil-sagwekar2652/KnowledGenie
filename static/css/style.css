@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 body{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
 .parent{
   display: flex;
   align-items: center;
@@ -71,3 +72,54 @@ background-color: rgba(255, 255, 255, 0.05);
 outline: none;
 }
 
+#upload-button{
+  padding: 18px;
+  border-radius: 8px;
+  border: none;
+  margin-left: 8px;
+  background: rgb(28, 177, 28);
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.9s;
+ }
+ #upload-button:hover{
+  background: darkgreen;
+ }
+
+ 
+header{
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 600;
+  background: rgba( 255, 255, 255, 0.3 );
+  backdrop-filter: blur( 2.5px );
+  -webkit-backdrop-filter: blur( 2.5px );
+
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+
+ 
+.introduction{
+  padding-bottom: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+}
+.content{
+  width: 70%;
+  margin: 35px;
+}
+.geni{
+  height: 300px;
+  width: 200px;
+  background-position: center;
+  background-attachment:fixed;
+}
