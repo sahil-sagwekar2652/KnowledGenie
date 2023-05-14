@@ -8,3 +8,4 @@ colabtweak
 pypdf
 Flask
 python-dotenv
+gunicorn
