@@ -1,4 +1,3 @@
-
 const chat = document.querySelector('.chat')
 const inputText = document.getElementById("input-text");
 const createPElementsButton = document.getElementById("create-p-elements");
@@ -9,9 +8,41 @@ createPElementsButton.addEventListener("click", () => {
 
   // Create a new paragraph element for each line of text
   for (const line of text.split('\n')) {
+    const divElement = document.createElement("div");
     const pElement = document.createElement("p");
     pElement.textContent = line;
-    pElement.className +="received"
-    chat.appendChild(pElement);
+    divElement.className = "message";
+    divElement.className +="received"
+    divElement.innerHTML = pElement;
+    chat.appendChild(divElement);
   }
+});
+
+
+const form = document.querySelector('#create-p-elements');
+// select the div element with class "chat"
+const chatDiv = document.querySelector('.chat');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const query = document.querySelector('#input-text').value;
+  const response = await fetch('/process', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query })
+  });
+  const { answer } = await response.json();
+
+  // create a new HTML element and set its content
+  const newElement = document.createElement('div');
+  newElement.className = 'message';
+  newElement.className = 'sent';
+  newElement.innerHTML = '<p>Hello, world!</p>';
+
+  // append the new element to the chat div
+  chatDiv.appendChild(newElement);
+
 });
