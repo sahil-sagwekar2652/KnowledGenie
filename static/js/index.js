@@ -58,27 +58,27 @@ uploadButton.addEventListener("click", () => {
 
 
 // Send the received file to the server/host
-// const fileInput = document.querySelector('input[type="file"]');
+const fileInput = document.querySelector('input[type="file"]');
 
-// fileInput.addEventListener('change', (event) => {
-//   const file = event.target.files[0];
-//   const formData = new FormData();
-//   formData.append('file', file);
+fileInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
 
-//   fetch('/upload', {
-//     method: 'POST',
-//     body: formData
-//   })
-//   .then(response => {
-//     if (response.ok) {
-//       console.log('File uploaded successfully');
-//     } else {
-//       console.error('Upload failed');
-//     }
-//   })
-//   .catch(error => {
-//     console.error(error);
-//   });
-// });
+  fetch('/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('File uploaded successfully');
+    } else {
+      console.error('Upload failed');
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+});
 
 
