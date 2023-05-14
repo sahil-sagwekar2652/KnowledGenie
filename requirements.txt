@@ -1,0 +1,8 @@
+langchain 
+huggingface_hub 
+sentence_transformers
+faiss-cpu
+unstructured 
+chromadb
+colabtweak
+pypdf
