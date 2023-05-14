@@ -11,9 +11,8 @@ createPElementsButton.addEventListener("click", () => {
     const divElement = document.createElement("div");
     const pElement = document.createElement("p");
     pElement.textContent = line;
-    divElement.className = "message";
-    divElement.className +="received"
-    divElement.innerHTML = pElement;
+    divElement.className = "message received";
+    divElement.appendChild(pElement);
     chat.appendChild(divElement);
   }
 });
@@ -38,9 +37,10 @@ form.addEventListener('submit', async (event) => {
 
   // create a new HTML element and set its content
   const newElement = document.createElement('div');
-  newElement.className = 'message';
-  newElement.className = 'sent';
-  newElement.innerHTML = '<p>Hello, world!</p>';
+  newElement.className = 'message sent';
+  const pElement = document.createElement('p');
+  pElement.textContent = answer;
+  newElement.appendChild(pElement);
 
   // append the new element to the chat div
   chatDiv.appendChild(newElement);
