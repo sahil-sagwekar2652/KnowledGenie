@@ -34,7 +34,7 @@ def process():
 
             # Running the model from backend\script.py
             # This code loads a model from the HuggingFace repository.
-            qa_model = backend.main(file_path, "What is the capital of India?")
+            qa_model = backend.main(file_path)
             result = qa_model(query)
             answer = result['result']
             # source = result['source_documents'][0].metadata['source']
