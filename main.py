@@ -44,7 +44,7 @@ def process():
             return jsonify({'answer': answer})
         else:
             return 'No file uploaded.'
-    else:
+    elif request.method == 'GET':
         return render_template('chat.html')
 
 
