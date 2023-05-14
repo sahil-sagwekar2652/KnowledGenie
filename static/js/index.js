@@ -82,17 +82,3 @@ uploadButton.addEventListener("click", () => {
 // });
 
 
-
-const inputText = document.getElementById("input-text");
-const createPElementsButton = document.getElementById("create-p-elements");
-const received = document.querySelector('.received')
-createPElementsButton.addEventListener("click", () => {
-  // Get the text from the input text field
-  const text = inputText.value;
-  // Create a new paragraph element for each line of text
-  for (const line of text.split('\n')) {
-    const pElement = document.createElement("p");
-    pElement.textContent = line;
-    received.appendChild(pElement);
-  }
-});
