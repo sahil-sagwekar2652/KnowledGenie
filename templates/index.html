@@ -5,20 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-HACKFEST</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
     <div class="parent">
-    <div class="drop-zone">
-        <span class="drop-zone__prompt">Drop file here or click to upload</span>
-        <input type="file" name="myFile" class="drop-zone__input">
-      </div>
+        <div class="file-drop-area">
+            <span class="fake-btn">Choose files</span>
+            <span class="file-msg">or drag and drop files here</span>
+            <input class="file-input" type="file" id="pdf-input">
+        </div>
+        <button id="upload-button">Upload</button>
+        <p id="output"></p>   
     </div>
 
 
 
 
 
-    <script src="static/js/index.js"></script>
+    <script src="../static/js/index.js"></script>
 </body>
 </html>

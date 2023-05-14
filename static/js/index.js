@@ -1,96 +1,98 @@
-document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
-    const dropZoneElement = inputElement.closest(".drop-zone");
-  
-    dropZoneElement.addEventListener("click", (e) => {
-      inputElement.click();
-    });
-  
-    inputElement.addEventListener("change", (e) => {
-      if (inputElement.files.length) {
-        updateThumbnail(dropZoneElement, inputElement.files[0]);
-      }
-    });
-  
-    dropZoneElement.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropZoneElement.classList.add("drop-zone--over");
-    });
-  
-    ["dragleave", "dragend"].forEach((type) => {
-      dropZoneElement.addEventListener(type, (e) => {
-        dropZoneElement.classList.remove("drop-zone--over");
-      });
-    });
-  
-    dropZoneElement.addEventListener("drop", (e) => {
-      e.preventDefault();
-  
-      if (e.dataTransfer.files.length) {
-        inputElement.files = e.dataTransfer.files;
-        updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
-      }
-  
-      dropZoneElement.classList.remove("drop-zone--over");
-    });
-  });
-  
-  /**
-   * Updates the thumbnail on a drop zone element.
-   *
-   * @param {HTMLElement} dropZoneElement
-   * @param {File} file
-   */
-  function updateThumbnail(dropZoneElement, file) {
-    let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
-  
-    // First time - remove the prompt
-    if (dropZoneElement.querySelector(".drop-zone__prompt")) {
-      dropZoneElement.querySelector(".drop-zone__prompt").remove();
-    }
-  
-    // First time - there is no thumbnail element, so lets create it
-    if (!thumbnailElement) {
-      thumbnailElement = document.createElement("div");
-      thumbnailElement.classList.add("drop-zone__thumb");
-      dropZoneElement.appendChild(thumbnailElement);
-    }
-  
-    thumbnailElement.dataset.label = file.name;
-  
-    // Show thumbnail for image files
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
-  
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-      };
-    } else {
-      thumbnailElement.style.backgroundImage = null;
-    }
-  }
-  
-// Send the received file to the server/host
-const fileInput = document.querySelector('input[type="file"]');
+var $fileInput = $('.file-input');
+var $droparea = $('.file-drop-area');
 
-fileInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  const formData = new FormData();
-  formData.append('file', file);
-
-  fetch('/upload', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => {
-    if (response.ok) {
-      console.log('File uploaded successfully');
-    } else {
-      console.error('Upload failed');
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+// highlight drag area
+$fileInput.on('dragenter focus click', function() {
+  $droparea.addClass('is-active');
 });
+
+// back to normal state
+$fileInput.on('dragleave blur drop', function() {
+  $droparea.removeClass('is-active');
+});
+
+// change inner text
+$fileInput.on('change', function() {
+  var filesCount = $(this)[0].files.length;
+  var $textContainer = $(this).prev();
+
+  if (filesCount === 1) {
+    // if single file is selected, show file name
+    var fileName = $(this).val().split('\\').pop();
+    $textContainer.text(fileName);
+  } else {
+    // otherwise show number of files
+    $textContainer.text(filesCount + ' files selected');
+  }
+});
+
   
+
+const pdfInput = document.getElementById("pdf-input");
+const uploadButton = document.getElementById("upload-button");
+const output = document.getElementById("output");
+
+uploadButton.addEventListener("click", () => {
+  // Get the selected file
+  const file = pdfInput.files[0];
+
+  // Check if the file is a PDF file
+  if (!file.type.startsWith("application/pdf")) {
+    alert("Please select a PDF file.");
+    return;
+  }
+
+  // Get the file name
+  const fileName = file.name;
+
+  // Check if the file name is correct
+  if (!fileName.endsWith(".pdf")) {
+    alert("Please select a valid PDF file.");
+    return;
+  }
+
+  // Redirect to the new page
+  window.location.href = "chat.html";
+});
+
+
+
+// Send the received file to the server/host
+// const fileInput = document.querySelector('input[type="file"]');
+
+// fileInput.addEventListener('change', (event) => {
+//   const file = event.target.files[0];
+//   const formData = new FormData();
+//   formData.append('file', file);
+
+//   fetch('/upload', {
+//     method: 'POST',
+//     body: formData
+//   })
+//   .then(response => {
+//     if (response.ok) {
+//       console.log('File uploaded successfully');
+//     } else {
+//       console.error('Upload failed');
+//     }
+//   })
+//   .catch(error => {
+//     console.error(error);
+//   });
+// });
+
+
+
+const inputText = document.getElementById("input-text");
+const createPElementsButton = document.getElementById("create-p-elements");
+const received = document.querySelector('.received')
+createPElementsButton.addEventListener("click", () => {
+  // Get the text from the input text field
+  const text = inputText.value;
+  // Create a new paragraph element for each line of text
+  for (const line of text.split('\n')) {
+    const pElement = document.createElement("p");
+    pElement.textContent = line;
+    received.appendChild(pElement);
+  }
+});
