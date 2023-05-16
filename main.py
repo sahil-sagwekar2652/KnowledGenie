@@ -16,12 +16,13 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    uploaded_file = request.files['file']
-    file_path = os.path.join('/tmp', uploaded_file.filename)
-    uploaded_file.save(file_path)
-    session['file_path'] = file_path
-
-    return redirect(url_for('process'))
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+        file_path = os.path.join('', uploaded_file.filename)
+        print("\n\n", file_path, "\n\n")
+        uploaded_file.save(file_path)
+        session['file_path'] = file_path
+        return redirect(url_for('process'))
 
 
 @app.route('/process', methods=['GET', 'POST'])

@@ -69,16 +69,11 @@ fileInput.addEventListener('change', (event) => {
     method: 'POST',
     body: formData
   })
-  .then(response => {
-    if (response.ok) {
-      console.log('File uploaded successfully');
-    } else {
-      console.error('Upload failed');
-    }
+  .then(response => response.text())
+  .then(() => {
+    window.location.href = '/process';
   })
   .catch(error => {
-    console.error(error);
+    console.error('Error:', error);
   });
 });
-
-
